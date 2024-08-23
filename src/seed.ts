@@ -10,7 +10,8 @@ function chunk<T>(array: T[], size: number): T[][] {
 }
 
 async function createPointOfSales(prisma: PrismaClient) {
-  const newPointOfSales = Array.from({ length: 32767 }, (_, i) => ({
+  await prisma.pointOfSale.deleteMany();
+  const newPointOfSales = Array.from({ length: 16384 }, (_, i) => ({
     name: `Point of Sale ${i + 1}`,
   }));
 
@@ -40,6 +41,7 @@ export async function createUserIfNotExists(
   prisma: PrismaClient,
   email: string
 ) {
+  await prisma.user.deleteMany();
   let user = await prisma.user.findUnique({
     where: { email },
   });
